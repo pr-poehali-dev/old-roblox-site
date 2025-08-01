@@ -4,6 +4,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Badge } from "@/components/ui/badge";
 import { toast } from "@/hooks/use-toast";
 import Icon from "@/components/ui/icon";
+import RobloxLogo from "@/components/ui/roblox-logo";
 import { useState } from "react";
 
 const Index = () => {
@@ -58,9 +59,7 @@ const Index = () => {
       <header className="bg-gradient-to-r from-red-500 to-red-600 p-4 shadow-lg border-b-4 border-red-700">
         <div className="container mx-auto flex items-center justify-between">
           <div className="flex items-center space-x-4">
-            <div className="w-12 h-12 bg-yellow-400 border-4 border-yellow-600 flex items-center justify-center text-2xl font-black text-red-600">
-              R
-            </div>
+            <RobloxLogo size={48} className="hover:scale-110 transition-transform duration-300" />
             <h1 className="text-3xl font-black text-white tracking-wider drop-shadow-lg" 
                 style={{
                   textShadow: '3px 3px 0px #8B0000, -1px -1px 0px #8B0000, 1px -1px 0px #8B0000, -1px 1px 0px #8B0000'
@@ -346,9 +345,7 @@ const Index = () => {
       <footer className="bg-gradient-to-r from-red-600 to-red-700 p-8 border-t-8 border-red-800">
         <div className="container mx-auto text-center">
           <div className="flex items-center justify-center space-x-4 mb-6">
-            <div className="w-16 h-16 bg-yellow-400 border-4 border-yellow-600 flex items-center justify-center text-3xl font-black text-red-600">
-              R
-            </div>
+            <RobloxLogo size={64} className="hover:scale-110 transition-transform duration-300" />
             <h2 className="text-2xl font-black text-white tracking-wider">OLD ROBLOX GAMES</h2>
           </div>
           
