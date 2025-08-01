@@ -1,8 +1,20 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Badge } from "@/components/ui/badge";
+import { toast } from "@/hooks/use-toast";
 import Icon from "@/components/ui/icon";
+import { useState } from "react";
 
 const Index = () => {
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [friends] = useState([
+    { id: 1, name: "NoobMaster2008", online: true },
+    { id: 2, name: "BlockBuilder99", online: false },
+    { id: 3, name: "RobloxKing", online: true }
+  ]);
+  const [showFriends, setShowFriends] = useState(false);
+
   const games = [
     {
       id: 1,
@@ -55,14 +67,50 @@ const Index = () => {
             </h1>
           </div>
           <nav className="flex space-x-4">
-            <Button className="bg-yellow-400 hover:bg-yellow-500 text-red-600 font-bold border-4 border-yellow-600 shadow-lg px-6 py-2">
+            <Button 
+              className="bg-yellow-400 hover:bg-yellow-500 text-red-600 font-bold border-4 border-yellow-600 shadow-lg px-6 py-2"
+              onClick={() => {
+                toast({
+                  title: "🎮 Запуск игр!",
+                  description: "Выберите игру из списка ниже"
+                });
+                document.getElementById('games-section')?.scrollIntoView({ behavior: 'smooth' });
+              }}
+            >
               <Icon name="GameController2" size={20} className="mr-2" />
               ИГРАТЬ
             </Button>
-            <Button variant="outline" className="bg-white hover:bg-gray-100 text-red-600 font-bold border-4 border-gray-400 shadow-lg px-6 py-2">
-              <Icon name="Users" size={20} className="mr-2" />
-              ДРУЗЬЯ
-            </Button>
+            <Dialog open={showFriends} onOpenChange={setShowFriends}>
+              <DialogTrigger asChild>
+                <Button variant="outline" className="bg-white hover:bg-gray-100 text-red-600 font-bold border-4 border-gray-400 shadow-lg px-6 py-2">
+                  <Icon name="Users" size={20} className="mr-2" />
+                  ДРУЗЬЯ
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="bg-white border-4 border-gray-300">
+                <DialogHeader>
+                  <DialogTitle className="text-2xl font-black text-red-600">МОИ ДРУЗЬЯ</DialogTitle>
+                  <DialogDescription className="text-gray-600 font-bold">
+                    Список ваших друзей в Roblox
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="space-y-3">
+                  {friends.map((friend) => (
+                    <div key={friend.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border-2 border-gray-200">
+                      <div className="flex items-center space-x-3">
+                        <div className="w-10 h-10 bg-gradient-to-br from-red-400 to-red-600 rounded-lg border-2 border-red-700 flex items-center justify-center">
+                          <Icon name="User" size={20} className="text-white" />
+                        </div>
+                        <span className="font-bold text-gray-800">{friend.name}</span>
+                      </div>
+                      <Badge variant={friend.online ? "default" : "secondary"} className="font-bold">
+                        {friend.online ? "🟢 Онлайн" : "⚫ Офлайн"}
+                      </Badge>
+                    </div>
+                  ))}
+                </div>
+              </DialogContent>
+            </Dialog>
           </nav>
         </div>
       </header>
@@ -81,11 +129,28 @@ const Index = () => {
               Исследуйте миры, созданные игроками. Стройте, играйте, общайтесь!
             </p>
             <div className="flex justify-center space-x-6">
-              <Button className="bg-red-500 hover:bg-red-600 text-white font-black text-xl px-8 py-4 border-4 border-red-700 shadow-xl">
+              <Button 
+                className="bg-red-500 hover:bg-red-600 text-white font-black text-xl px-8 py-4 border-4 border-red-700 shadow-xl"
+                onClick={() => {
+                  toast({
+                    title: "🚀 Добро пожаловать!",
+                    description: "Выберите игру для начала приключения!"
+                  });
+                  document.getElementById('games-section')?.scrollIntoView({ behavior: 'smooth' });
+                }}
+              >
                 <Icon name="Play" size={24} className="mr-3" />
                 НАЧАТЬ ИГРАТЬ
               </Button>
-              <Button className="bg-cyan-400 hover:bg-cyan-500 text-white font-black text-xl px-8 py-4 border-4 border-cyan-600 shadow-xl">
+              <Button 
+                className="bg-cyan-400 hover:bg-cyan-500 text-white font-black text-xl px-8 py-4 border-4 border-cyan-600 shadow-xl"
+                onClick={() => {
+                  toast({
+                    title: "🔧 Roblox Studio",
+                    description: "Функция создания игр скоро будет доступна!"
+                  });
+                }}
+              >
                 <Icon name="Wrench" size={24} className="mr-3" />
                 СТРОИТЬ
               </Button>
@@ -95,7 +160,7 @@ const Index = () => {
       </section>
 
       {/* Popular Games */}
-      <section className="py-12 px-4">
+      <section id="games-section" className="py-12 px-4">
         <div className="container mx-auto">
           <div className="text-center mb-12">
             <h3 className="text-4xl font-black text-white mb-4 tracking-wide"
@@ -138,10 +203,92 @@ const Index = () => {
                     </div>
                   </div>
 
-                  <Button className="w-full bg-red-500 hover:bg-red-600 text-white font-black border-4 border-red-700 shadow-lg">
-                    <Icon name="Play" size={16} className="mr-2" />
-                    ИГРАТЬ
-                  </Button>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button className="w-full bg-red-500 hover:bg-red-600 text-white font-black border-4 border-red-700 shadow-lg">
+                        <Icon name="Play" size={16} className="mr-2" />
+                        ИГРАТЬ
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="bg-white border-4 border-gray-300 max-w-2xl">
+                      <DialogHeader>
+                        <DialogTitle className="text-3xl font-black text-red-600 text-center">
+                          {game.title}
+                        </DialogTitle>
+                        <DialogDescription className="text-gray-600 font-bold text-center text-lg">
+                          {game.description}
+                        </DialogDescription>
+                      </DialogHeader>
+                      
+                      <div className="space-y-6">
+                        <div className="aspect-video bg-gradient-to-br from-cyan-400 to-blue-500 rounded-lg border-4 border-cyan-600 overflow-hidden">
+                          <img 
+                            src={game.image} 
+                            alt={game.title}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                        
+                        <div className="grid grid-cols-2 gap-4">
+                          <div className="text-center p-4 bg-yellow-100 rounded-lg border-2 border-yellow-300">
+                            <Icon name="Users" size={24} className="text-cyan-600 mx-auto mb-2" />
+                            <div className="text-2xl font-black text-gray-800">{game.players}</div>
+                            <div className="text-sm font-bold text-gray-600">Игроков онлайн</div>
+                          </div>
+                          <div className="text-center p-4 bg-yellow-100 rounded-lg border-2 border-yellow-300">
+                            <Icon name="Star" size={24} className="text-yellow-500 mx-auto mb-2 fill-current" />
+                            <div className="text-2xl font-black text-gray-800">{game.rating}</div>
+                            <div className="text-sm font-bold text-gray-600">Рейтинг</div>
+                          </div>
+                        </div>
+                        
+                        <div className="flex space-x-4">
+                          <Button 
+                            className="flex-1 bg-red-500 hover:bg-red-600 text-white font-black text-xl py-4 border-4 border-red-700 shadow-xl"
+                            onClick={() => {
+                              setIsPlaying(true);
+                              toast({
+                                title: `🎮 Запуск ${game.title}`,
+                                description: "Загрузка игры... Приготовьтесь к приключению!"
+                              });
+                              setTimeout(() => {
+                                setIsPlaying(false);
+                                toast({
+                                  title: "🎉 Игра запущена!",
+                                  description: "Удачной игры в старом добром Roblox!"
+                                });
+                              }, 3000);
+                            }}
+                            disabled={isPlaying}
+                          >
+                            {isPlaying ? (
+                              <>
+                                <Icon name="Loader2" size={20} className="mr-2 animate-spin" />
+                                ЗАГРУЗКА...
+                              </>
+                            ) : (
+                              <>
+                                <Icon name="Play" size={20} className="mr-2" />
+                                ИГРАТЬ СЕЙЧАС
+                              </>
+                            )}
+                          </Button>
+                          <Button 
+                            variant="outline" 
+                            className="bg-yellow-400 hover:bg-yellow-500 text-red-600 font-black py-4 border-4 border-yellow-600"
+                            onClick={() => {
+                              toast({
+                                title: "⭐ Добавлено в избранное!",
+                                description: `${game.title} сохранена в ваших любимых играх`
+                              });
+                            }}
+                          >
+                            <Icon name="Heart" size={20} />
+                          </Button>
+                        </div>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
                 </CardContent>
               </Card>
             ))}
@@ -204,16 +351,32 @@ const Index = () => {
           </div>
           
           <div className="flex justify-center space-x-8 mb-6">
-            <Button variant="ghost" className="text-white hover:text-yellow-400 font-bold">
+            <Button 
+              variant="ghost" 
+              className="text-white hover:text-yellow-400 font-bold"
+              onClick={() => toast({ title: "📖 О нас", description: "Old Roblox Games - ностальгический портал игр 2006-2008 годов!" })}
+            >
               О нас
             </Button>
-            <Button variant="ghost" className="text-white hover:text-yellow-400 font-bold">
+            <Button 
+              variant="ghost" 
+              className="text-white hover:text-yellow-400 font-bold"
+              onClick={() => toast({ title: "❓ Помощь", description: "Нужна помощь? Напишите нам в поддержку!" })}
+            >
               Помощь
             </Button>
-            <Button variant="ghost" className="text-white hover:text-yellow-400 font-bold">
+            <Button 
+              variant="ghost" 
+              className="text-white hover:text-yellow-400 font-bold"
+              onClick={() => toast({ title: "📧 Контакты", description: "Email: support@oldroblox.games" })}
+            >
               Контакты
             </Button>
-            <Button variant="ghost" className="text-white hover:text-yellow-400 font-bold">
+            <Button 
+              variant="ghost" 
+              className="text-white hover:text-yellow-400 font-bold"
+              onClick={() => toast({ title: "📋 Правила", description: "Соблюдайте правила честной игры и уважайте других игроков!" })}
+            >
               Правила
             </Button>
           </div>
