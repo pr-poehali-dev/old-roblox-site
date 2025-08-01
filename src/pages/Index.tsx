@@ -23,7 +23,7 @@ const Index = () => {
       id: 1,
       title: "Sword Fighting Tournament",
       description: "Сражайтесь мечами в эпических битвах!",
-      image: "/img/f067aa17-5eba-4000-96d2-183e8b9eab11.jpg",
+      image: "/img/24801938-8d2c-427b-a8dc-57eb39348ada.jpg",
       players: 1247,
       rating: 4.8
     },
@@ -31,7 +31,7 @@ const Index = () => {
       id: 2,
       title: "Build To Survive",
       description: "Стройте укрытия и выживайте!",
-      image: "/img/f067aa17-5eba-4000-96d2-183e8b9eab11.jpg",
+      image: "/img/99a99a0f-b1a4-4eed-aa1b-b1149fec4e9d.jpg",
       players: 892,
       rating: 4.6
     },
@@ -39,7 +39,7 @@ const Index = () => {
       id: 3,
       title: "Racing Circuit",
       description: "Гонки на самых крутых трассах!",
-      image: "/img/f067aa17-5eba-4000-96d2-183e8b9eab11.jpg",
+      image: "/img/6c482fb9-6f85-40d2-9f02-9f70414e779b.jpg",
       players: 2156,
       rating: 4.9
     },
@@ -47,7 +47,7 @@ const Index = () => {
       id: 4,
       title: "Zombie Apocalypse",
       description: "Сражайтесь с ордами зомби!",
-      image: "/img/f067aa17-5eba-4000-96d2-183e8b9eab11.jpg",
+      image: "/img/be21c174-3cb0-4606-aa36-87533390f20d.jpg",
       players: 3241,
       rating: 4.7
     }
