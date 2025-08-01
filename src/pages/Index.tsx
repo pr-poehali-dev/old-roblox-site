@@ -8,6 +8,8 @@ import { useState } from "react";
 
 const Index = () => {
   const [isPlaying, setIsPlaying] = useState(false);
+  const [showDownload, setShowDownload] = useState(false);
+  const [downloadProgress, setDownloadProgress] = useState(0);
   const [friends] = useState([
     { id: 1, name: "NoobMaster2008", online: true },
     { id: 2, name: "BlockBuilder99", online: false },
@@ -246,18 +248,18 @@ const Index = () => {
                           <Button 
                             className="flex-1 bg-red-500 hover:bg-red-600 text-white font-black text-xl py-4 border-4 border-red-700 shadow-xl"
                             onClick={() => {
-                              setIsPlaying(true);
-                              toast({
-                                title: `🎮 Запуск ${game.title}`,
-                                description: "Загрузка игры... Приготовьтесь к приключению!"
-                              });
-                              setTimeout(() => {
-                                setIsPlaying(false);
-                                toast({
-                                  title: "🎉 Игра запущена!",
-                                  description: "Удачной игры в старом добром Roblox!"
+                              setShowDownload(true);
+                              setDownloadProgress(0);
+                              
+                              const interval = setInterval(() => {
+                                setDownloadProgress(prev => {
+                                  if (prev >= 100) {
+                                    clearInterval(interval);
+                                    return 100;
+                                  }
+                                  return prev + Math.random() * 15;
                                 });
-                              }, 3000);
+                              }, 200);
                             }}
                             disabled={isPlaying}
                           >
@@ -386,6 +388,93 @@ const Index = () => {
           </p>
         </div>
       </footer>
+
+      {/* Download Modal */}
+      <Dialog open={showDownload} onOpenChange={setShowDownload}>
+        <DialogContent className="bg-white border-4 border-gray-300 max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-3xl font-black text-red-600 text-center">
+              📥 СКАЧАЙТЕ СТАРЫЙ ROBLOX
+            </DialogTitle>
+            <DialogDescription className="text-gray-600 font-bold text-center text-lg">
+              Для игры требуется клиент Roblox 2008 года
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-6">
+            <div className="text-center p-6 bg-gradient-to-br from-cyan-100 to-blue-100 rounded-lg border-4 border-cyan-300">
+              <div className="w-20 h-20 bg-red-500 border-4 border-red-700 rounded-lg mx-auto mb-4 flex items-center justify-center">
+                <Icon name="Download" size={40} className="text-white" />
+              </div>
+              <h3 className="text-xl font-black text-gray-800 mb-2">ROBLOX CLASSIC CLIENT</h3>
+              <p className="text-sm font-bold text-gray-600 mb-4">Версия 2008 • 45.2 МБ</p>
+              
+              {downloadProgress < 100 ? (
+                <div className="space-y-3">
+                  <div className="w-full bg-gray-200 rounded-full h-4 border-2 border-gray-400">
+                    <div 
+                      className="bg-gradient-to-r from-red-500 to-red-600 h-full rounded-full transition-all duration-300 border-r-2 border-red-700"
+                      style={{ width: `${downloadProgress}%` }}
+                    ></div>
+                  </div>
+                  <p className="text-lg font-black text-red-600">
+                    Загрузка... {Math.round(downloadProgress)}%
+                  </p>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  <div className="bg-green-100 border-2 border-green-400 rounded-lg p-4">
+                    <Icon name="CheckCircle" size={24} className="text-green-600 mx-auto mb-2" />
+                    <p className="text-green-700 font-bold">Загрузка завершена!</p>
+                  </div>
+                  
+                  <div className="space-y-3">
+                    <Button 
+                      className="w-full bg-red-500 hover:bg-red-600 text-white font-black text-lg py-3 border-4 border-red-700 shadow-xl"
+                      onClick={() => {
+                        toast({
+                          title: "💾 Установка",
+                          description: "Запустите roblox_classic_2008.exe для установки"
+                        });
+                      }}
+                    >
+                      <Icon name="Download" size={20} className="mr-2" />
+                      СКАЧАТЬ КЛИЕНТ
+                    </Button>
+                    
+                    <Button 
+                      variant="outline"
+                      className="w-full bg-yellow-400 hover:bg-yellow-500 text-red-600 font-black py-3 border-4 border-yellow-600"
+                      onClick={() => {
+                        toast({
+                          title: "📖 Инструкция",
+                          description: "1. Скачайте клиент 2. Установите 3. Запустите игру через браузер"
+                        });
+                      }}
+                    >
+                      <Icon name="HelpCircle" size={20} className="mr-2" />
+                      ИНСТРУКЦИЯ
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </div>
+            
+            <div className="bg-yellow-50 border-2 border-yellow-300 rounded-lg p-4">
+              <div className="flex items-start space-x-3">
+                <Icon name="AlertTriangle" size={20} className="text-yellow-600 mt-1" />
+                <div>
+                  <h4 className="font-black text-yellow-800 mb-1">ВАЖНО!</h4>
+                  <p className="text-sm font-bold text-yellow-700">
+                    Этот клиент работает только на Windows XP/Vista/7. 
+                    Убедитесь, что у вас отключен антивирус при установке.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
