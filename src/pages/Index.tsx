@@ -6,6 +6,7 @@ import { toast } from "@/hooks/use-toast";
 import Icon from "@/components/ui/icon";
 import RobloxLogo from "@/components/ui/roblox-logo";
 import { useState } from "react";
+import { downloadRobloxClient, getClientInfo } from '@/utils/downloadClient';
 
 const Index = () => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -70,16 +71,17 @@ const Index = () => {
           <nav className="flex space-x-4">
             <Button 
               className="bg-yellow-400 hover:bg-yellow-500 text-red-600 font-bold border-4 border-yellow-600 shadow-lg px-6 py-2"
-              onClick={() => {
-                toast({
-                  title: "🎮 Запуск игр!",
-                  description: "Выберите игру из списка ниже"
-                });
-                document.getElementById('games-section')?.scrollIntoView({ behavior: 'smooth' });
-              }}
+              onClick={() => window.location.href = '/auth'}
             >
-              <Icon name="GameController2" size={20} className="mr-2" />
-              ИГРАТЬ
+              <Icon name="LogIn" size={20} className="mr-2" />
+              ВОЙТИ
+            </Button>
+            <Button 
+              className="bg-green-400 hover:bg-green-500 text-white font-bold border-4 border-green-600 shadow-lg px-6 py-2"
+              onClick={() => downloadRobloxClient()}
+            >
+              <Icon name="Download" size={20} className="mr-2" />
+              СКАЧАТЬ КЛИЕНТ
             </Button>
             <Dialog open={showFriends} onOpenChange={setShowFriends}>
               <DialogTrigger asChild>
@@ -132,28 +134,17 @@ const Index = () => {
             <div className="flex justify-center space-x-6">
               <Button 
                 className="bg-red-500 hover:bg-red-600 text-white font-black text-xl px-8 py-4 border-4 border-red-700 shadow-xl"
-                onClick={() => {
-                  toast({
-                    title: "🚀 Добро пожаловать!",
-                    description: "Выберите игру для начала приключения!"
-                  });
-                  document.getElementById('games-section')?.scrollIntoView({ behavior: 'smooth' });
-                }}
+                onClick={() => window.location.href = '/auth'}
               >
-                <Icon name="Play" size={24} className="mr-3" />
-                НАЧАТЬ ИГРАТЬ
+                <Icon name="LogIn" size={24} className="mr-3" />
+                ВОЙТИ В ИГРУ
               </Button>
               <Button 
                 className="bg-cyan-400 hover:bg-cyan-500 text-white font-black text-xl px-8 py-4 border-4 border-cyan-600 shadow-xl"
-                onClick={() => {
-                  toast({
-                    title: "🔧 Roblox Studio",
-                    description: "Функция создания игр скоро будет доступна!"
-                  });
-                }}
+                onClick={() => downloadRobloxClient()}
               >
-                <Icon name="Wrench" size={24} className="mr-3" />
-                СТРОИТЬ
+                <Icon name="Download" size={24} className="mr-3" />
+                СКАЧАТЬ КЛИЕНТ
               </Button>
             </div>
           </div>
@@ -429,10 +420,8 @@ const Index = () => {
                     <Button 
                       className="w-full bg-red-500 hover:bg-red-600 text-white font-black text-lg py-3 border-4 border-red-700 shadow-xl"
                       onClick={() => {
-                        toast({
-                          title: "💾 Установка",
-                          description: "Запустите roblox_classic_2008.exe для установки"
-                        });
+                        downloadRobloxClient();
+                        setShowDownload(false);
                       }}
                     >
                       <Icon name="Download" size={20} className="mr-2" />
