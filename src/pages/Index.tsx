@@ -7,11 +7,13 @@ import Icon from "@/components/ui/icon";
 import RobloxLogo from "@/components/ui/roblox-logo";
 import { useState } from "react";
 import { downloadRobloxClient, getClientInfo } from '@/utils/downloadClient';
+import RobloxInstaller from '@/components/RobloxInstaller';
 
 const Index = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [showDownload, setShowDownload] = useState(false);
   const [downloadProgress, setDownloadProgress] = useState(0);
+  const [showInstaller, setShowInstaller] = useState(false);
   const [friends] = useState([
     { id: 1, name: "NoobMaster2008", online: true },
     { id: 2, name: "BlockBuilder99", online: false },
@@ -65,7 +67,7 @@ const Index = () => {
                 style={{
                   textShadow: '3px 3px 0px #8B0000, -1px -1px 0px #8B0000, 1px -1px 0px #8B0000, -1px 1px 0px #8B0000'
                 }}>
-              OLD ROBLOX GAMES
+              OLD ROBLOX
             </h1>
           </div>
           <nav className="flex space-x-4">
@@ -141,7 +143,7 @@ const Index = () => {
               </Button>
               <Button 
                 className="bg-cyan-400 hover:bg-cyan-500 text-white font-black text-xl px-8 py-4 border-4 border-cyan-600 shadow-xl"
-                onClick={() => downloadRobloxClient()}
+                onClick={() => setShowInstaller(true)}
               >
                 <Icon name="Download" size={24} className="mr-3" />
                 СКАЧАТЬ КЛИЕНТ
@@ -337,14 +339,14 @@ const Index = () => {
         <div className="container mx-auto text-center">
           <div className="flex items-center justify-center space-x-4 mb-6">
             <RobloxLogo size={64} className="hover:scale-110 transition-transform duration-300" />
-            <h2 className="text-2xl font-black text-white tracking-wider">OLD ROBLOX GAMES</h2>
+            <h2 className="text-2xl font-black text-white tracking-wider">OLD ROBLOX</h2>
           </div>
           
           <div className="flex justify-center space-x-8 mb-6">
             <Button 
               variant="ghost" 
               className="text-white hover:text-yellow-400 font-bold"
-              onClick={() => toast({ title: "📖 О нас", description: "Old Roblox Games - ностальгический портал игр 2006-2008 годов!" })}
+              onClick={() => toast({ title: "📖 О нас", description: "Old Roblox - ностальгический портал игр 2006-2008 годов!" })}
             >
               О нас
             </Button>
@@ -465,4 +467,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+      {/* Roblox Installer */}\n      <RobloxInstaller open={showInstaller} onOpenChange={setShowInstaller} />\n    </div>\n  );\n};\n\nexport default Index;

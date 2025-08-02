@@ -8,8 +8,8 @@ import RobloxLogo from '@/components/ui/roblox-logo';
 export default function Game() {
   const [user] = useState({
     username: 'Guest_' + Math.floor(Math.random() * 10000),
-    robux: 15,
-    tickets: 25
+    robux: 0,
+    tickets: 0
   });
 
   const games = [
@@ -44,6 +44,30 @@ export default function Game() {
       image: "/img/be21c174-3cb0-4606-aa36-87533390f20d.jpg",
       players: 3241,
       rating: 4.7
+    },
+    {
+      id: 5,
+      title: "Castle Siege",
+      description: "Захватывайте замки в средневековых битвах!",
+      image: "/img/a2ae8285-95e0-4a2e-9ef9-524f66705753.jpg",
+      players: 1856,
+      rating: 4.5
+    },
+    {
+      id: 6,
+      title: "Space Battle",
+      description: "Космические сражения среди звезд!",
+      image: "/img/1f81666d-d49e-4c06-9821-f757391ab871.jpg",
+      players: 2743,
+      rating: 4.8
+    },
+    {
+      id: 7,
+      title: "Pirate Adventure",
+      description: "Приключения пиратов на семи морях!",
+      image: "/img/de758f21-015e-4dc6-acae-a5e777a28c30.jpg",
+      players: 1624,
+      rating: 4.6
     }
   ];
 
@@ -72,7 +96,7 @@ export default function Game() {
                 style={{
                   textShadow: '3px 3px 0px #8B0000, -1px -1px 0px #8B0000, 1px -1px 0px #8B0000, -1px 1px 0px #8B0000'
                 }}>
-              OLD ROBLOX GAMES
+              OLD ROBLOX
             </h1>
           </div>
           <div className="flex items-center space-x-6">
@@ -93,7 +117,7 @@ export default function Game() {
             <Button 
               variant="outline"
               className="bg-white hover:bg-gray-100 text-red-600 font-bold border-4 border-gray-400 shadow-lg px-6 py-2"
-              onClick={() => window.location.href = '/'}
+              onClick={() => window.location.href = '/profile'}\n            >\n              <Icon name=\"Settings\" size={20} className=\"mr-2\" />\n              ПРОФИЛЬ\n            </Button>\n            <Button \n              variant=\"outline\"\n              className=\"bg-white hover:bg-gray-100 text-red-600 font-bold border-4 border-gray-400 shadow-lg px-6 py-2\"\n              onClick={() => window.location.href = '/'}
             >
               <Icon name="Home" size={20} className="mr-2" />
               ГЛАВНАЯ
@@ -193,10 +217,10 @@ export default function Game() {
         <div className="container mx-auto text-center">
           <div className="flex items-center justify-center space-x-4 mb-6">
             <RobloxLogo size={48} className="hover:scale-110 transition-transform duration-300" />
-            <h2 className="text-xl font-black text-white tracking-wider">OLD ROBLOX GAMES</h2>
+            <h2 className="text-xl font-black text-white tracking-wider">OLD ROBLOX</h2>
           </div>
           <p className="text-white/80 font-bold">
-            © 2008 Old Roblox Games. Все права защищены.
+            © 2008 Old Roblox. Все права защищены.
           </p>
         </div>
       </footer>
