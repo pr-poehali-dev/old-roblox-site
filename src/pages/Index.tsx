@@ -463,8 +463,11 @@ const Index = () => {
           </div>
         </DialogContent>
       </Dialog>
+
+      {/* Roblox Installer */}
+      <RobloxInstaller open={showInstaller} onOpenChange={setShowInstaller} />
     </div>
   );
 };
 
-      {/* Roblox Installer */}\n      <RobloxInstaller open={showInstaller} onOpenChange={setShowInstaller} />\n    </div>\n  );\n};\n\nexport default Index;
+export default Index;
