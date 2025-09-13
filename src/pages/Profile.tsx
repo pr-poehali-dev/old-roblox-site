@@ -84,7 +84,7 @@ export default function Profile() {
                 style={{
                   textShadow: '3px 3px 0px #8B0000, -1px -1px 0px #8B0000, 1px -1px 0px #8B0000, -1px 1px 0px #8B0000'
                 }}>
-              OLD ROBLOX
+              ROBLOX V2
             </h1>
           </div>
           <Button 
