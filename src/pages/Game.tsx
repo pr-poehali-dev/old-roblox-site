@@ -117,7 +117,15 @@ export default function Game() {
             <Button 
               variant="outline"
               className="bg-white hover:bg-gray-100 text-red-600 font-bold border-4 border-gray-400 shadow-lg px-6 py-2"
-              onClick={() => window.location.href = '/profile'}\n            >\n              <Icon name=\"Settings\" size={20} className=\"mr-2\" />\n              ПРОФИЛЬ\n            </Button>\n            <Button \n              variant=\"outline\"\n              className=\"bg-white hover:bg-gray-100 text-red-600 font-bold border-4 border-gray-400 shadow-lg px-6 py-2\"\n              onClick={() => window.location.href = '/'}
+              onClick={() => window.location.href = '/profile'}
+            >
+              <Icon name="Settings" size={20} className="mr-2" />
+              ПРОФИЛЬ
+            </Button>
+            <Button 
+              variant="outline"
+              className="bg-white hover:bg-gray-100 text-red-600 font-bold border-4 border-gray-400 shadow-lg px-6 py-2"
+              onClick={() => window.location.href = '/'}
             >
               <Icon name="Home" size={20} className="mr-2" />
               ГЛАВНАЯ
