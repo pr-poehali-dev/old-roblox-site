@@ -14,9 +14,9 @@ export default function Profile() {
     email: 'guest@roblox.com',
     robux: 0,
     tickets: 0,
-    joinDate: '2008-01-15',
+    joinDate: new Date().toISOString().split('T')[0],
     gamesPlayed: 45,
-    friends: 12
+    friends: 0
   });
 
   const [editData, setEditData] = useState({
@@ -109,7 +109,7 @@ export default function Profile() {
               </div>
               <div className="flex-1">
                 <h2 className="text-4xl font-black text-red-600 mb-2">{user.username}</h2>
-                <p className="text-lg text-gray-700 font-bold mb-4">Игрок с {user.joinDate}</p>
+                <p className="text-lg text-gray-700 font-bold mb-4">Игрок с {new Date(user.joinDate).toLocaleDateString('ru-RU')}</p>
                 <div className="flex space-x-6">
                   <div className="text-center p-3 bg-yellow-100 rounded-lg border-2 border-yellow-300">
                     <div className="text-xl font-black text-gray-800">{user.robux}</div>
@@ -223,7 +223,7 @@ export default function Profile() {
                 </div>
                 <div className="space-y-2">
                   <Label className="text-sm font-bold text-gray-700">Последнее изменение:</Label>
-                  <p className="text-sm font-bold text-gray-500">15 января 2008</p>
+                  <p className="text-sm font-bold text-gray-500">{new Date(user.joinDate).toLocaleDateString('ru-RU')}</p>
                 </div>
                 <Dialog open={showChangePassword} onOpenChange={setShowChangePassword}>
                   <DialogTrigger asChild>
@@ -316,7 +316,7 @@ export default function Profile() {
                 <div className="text-center p-4 bg-gray-50 rounded-lg border-2 border-gray-200">
                   <Icon name="Calendar" size={24} className="text-gray-600 mx-auto mb-2" />
                   <div className="text-lg font-black text-gray-800">Дата регистрации</div>
-                  <div className="text-sm font-bold text-gray-600">{user.joinDate}</div>
+                  <div className="text-sm font-bold text-gray-600">{new Date(user.joinDate).toLocaleDateString('ru-RU')}</div>
                 </div>
                 <div className="text-center p-4 bg-gray-50 rounded-lg border-2 border-gray-200">
                   <Icon name="Clock" size={24} className="text-gray-600 mx-auto mb-2" />
