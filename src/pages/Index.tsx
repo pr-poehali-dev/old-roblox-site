@@ -2,10 +2,11 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
 import { toast } from "@/hooks/use-toast";
 import Icon from "@/components/ui/icon";
 import RobloxLogo from "@/components/ui/roblox-logo";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { downloadRobloxClient, getClientInfo } from '@/utils/downloadClient';
 import RobloxInstaller from '@/components/RobloxInstaller';
 
@@ -14,12 +15,86 @@ const Index = () => {
   const [showDownload, setShowDownload] = useState(false);
   const [downloadProgress, setDownloadProgress] = useState(0);
   const [showInstaller, setShowInstaller] = useState(false);
-  const [friends] = useState([
-    { id: 1, name: "NoobMaster2008", online: true },
-    { id: 2, name: "BlockBuilder99", online: false },
-    { id: 3, name: "RobloxKing", online: true }
-  ]);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
+  const [friends, setFriends] = useState([]);
   const [showFriends, setShowFriends] = useState(false);
+  const [newFriendName, setNewFriendName] = useState('');
+  const [showAddFriend, setShowAddFriend] = useState(false);
+
+  useEffect(() => {
+    // Проверяем авторизацию при загрузке
+    const savedUser = localStorage.getItem('roblox_user');
+    if (savedUser) {
+      const userData = JSON.parse(savedUser);
+      setIsLoggedIn(true);
+      setCurrentUser(userData);
+      
+      // Загружаем друзей пользователя
+      const savedFriends = localStorage.getItem('roblox_friends');
+      if (savedFriends) {
+        setFriends(JSON.parse(savedFriends));
+      }
+    }
+  }, []);
+
+  const addFriend = () => {
+    if (!newFriendName.trim()) {
+      toast({
+        title: "❌ Ошибка",
+        description: "Введите имя друга!"
+      });
+      return;
+    }
+
+    // Проверяем, не добавлен ли уже этот друг
+    if (friends.some(friend => friend.name.toLowerCase() === newFriendName.toLowerCase())) {
+      toast({
+        title: "❌ Ошибка", 
+        description: "Этот игрок уже в списке друзей!"
+      });
+      return;
+    }
+
+    const newFriend = {
+      id: Date.now(),
+      name: newFriendName,
+      online: Math.random() > 0.5 // Случайный статус
+    };
+
+    const updatedFriends = [...friends, newFriend];
+    setFriends(updatedFriends);
+    localStorage.setItem('roblox_friends', JSON.stringify(updatedFriends));
+    
+    // Обновляем счетчик друзей в профиле пользователя
+    const userData = {...currentUser, friends: updatedFriends.length};
+    setCurrentUser(userData);
+    localStorage.setItem('roblox_user', JSON.stringify(userData));
+
+    setNewFriendName('');
+    setShowAddFriend(false);
+    
+    toast({
+      title: "✅ Друг добавлен!",
+      description: `${newFriendName} теперь в списке друзей`
+    });
+  };
+
+  const removeFriend = (friendId) => {
+    const updatedFriends = friends.filter(friend => friend.id !== friendId);
+    setFriends(updatedFriends);
+    localStorage.setItem('roblox_friends', JSON.stringify(updatedFriends));
+    
+    // Обновляем счетчик друзей в профиле пользователя
+    const userData = {...currentUser, friends: updatedFriends.length};
+    setCurrentUser(userData);
+    localStorage.setItem('roblox_user', JSON.stringify(userData));
+
+    toast({
+      title: "👋 Друг удален",
+      description: "Игрок убран из списка друзей"
+    });
+  };
 
   const games = [
     {
@@ -357,6 +432,16 @@ const Index = () => {
             >
               Помощь
             </Button>
+            {isLoggedIn && (
+              <Button 
+                variant="ghost" 
+                className="text-white hover:text-yellow-400 font-bold"
+                onClick={() => setShowFriends(true)}
+              >
+                <Icon name="Users" size={16} className="mr-2" />
+                Друзья ({friends.length})
+              </Button>
+            )}
             <Button 
               variant="ghost" 
               className="text-white hover:text-yellow-400 font-bold"
@@ -463,6 +548,111 @@ const Index = () => {
           </div>
         </DialogContent>
       </Dialog>
+
+      {/* Friends Modal */}
+      {isLoggedIn && (
+        <Dialog open={showFriends} onOpenChange={setShowFriends}>
+          <DialogContent className="bg-white border-4 border-gray-300 max-w-md">
+            <DialogHeader>
+              <DialogTitle className="text-3xl font-black text-red-600 text-center">
+                <Icon name="Users" size={32} className="inline mr-3" />
+                ДРУЗЬЯ
+              </DialogTitle>
+              <DialogDescription className="text-gray-600 font-bold text-center text-lg">
+                {friends.length > 0 ? `У вас ${friends.length} друзей` : 'У вас пока нет друзей'}
+              </DialogDescription>
+            </DialogHeader>
+            
+            <div className="space-y-4">
+              {friends.length > 0 && (
+                <div className="max-h-64 overflow-y-auto space-y-2">
+                  {friends.map((friend) => (
+                    <div key={friend.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border-2 border-gray-200">
+                      <div className="flex items-center space-x-3">
+                        <div className={`w-3 h-3 rounded-full ${friend.online ? 'bg-green-500' : 'bg-gray-400'}`}></div>
+                        <span className="font-bold text-gray-800">{friend.name}</span>
+                        <span className="text-xs text-gray-500">
+                          {friend.online ? 'онлайн' : 'офлайн'}
+                        </span>
+                      </div>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="text-red-600 hover:text-red-800 border-red-300 hover:border-red-500"
+                        onClick={() => removeFriend(friend.id)}
+                      >
+                        <Icon name="X" size={14} />
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+              )}
+              
+              <div className="border-t-2 border-gray-200 pt-4">
+                <Button 
+                  className="w-full bg-green-500 hover:bg-green-600 text-white font-black border-4 border-green-700"
+                  onClick={() => setShowAddFriend(true)}
+                >
+                  <Icon name="UserPlus" size={16} className="mr-2" />
+                  ДОБАВИТЬ ДРУГА
+                </Button>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
+      )}
+
+      {/* Add Friend Modal */}
+      {isLoggedIn && (
+        <Dialog open={showAddFriend} onOpenChange={setShowAddFriend}>
+          <DialogContent className="bg-white border-4 border-gray-300 max-w-sm">
+            <DialogHeader>
+              <DialogTitle className="text-2xl font-black text-green-600 text-center">
+                <Icon name="UserPlus" size={24} className="inline mr-2" />
+                ДОБАВИТЬ ДРУГА
+              </DialogTitle>
+              <DialogDescription className="text-gray-600 font-bold text-center">
+                Введите имя игрока для добавления в друзья
+              </DialogDescription>
+            </DialogHeader>
+            
+            <div className="space-y-4">
+              <div>
+                <label className="text-sm font-bold text-gray-700 block mb-2">
+                  Имя пользователя:
+                </label>
+                <Input
+                  type="text"
+                  placeholder="Введите имя игрока"
+                  value={newFriendName}
+                  onChange={(e) => setNewFriendName(e.target.value)}
+                  className="border-2 border-gray-300"
+                />
+              </div>
+              
+              <div className="flex space-x-3">
+                <Button 
+                  className="flex-1 bg-green-500 hover:bg-green-600 text-white font-black border-4 border-green-700"
+                  onClick={addFriend}
+                >
+                  <Icon name="Check" size={16} className="mr-2" />
+                  ДОБАВИТЬ
+                </Button>
+                <Button 
+                  variant="outline" 
+                  className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-black border-4 border-gray-300"
+                  onClick={() => {
+                    setShowAddFriend(false);
+                    setNewFriendName('');
+                  }}
+                >
+                  ОТМЕНА
+                </Button>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
+      )}
 
       {/* Roblox Installer */}
       <RobloxInstaller open={showInstaller} onOpenChange={setShowInstaller} />
