@@ -16,9 +16,27 @@ export default function Auth() {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    // Здесь будет логика входа
-    console.log('Вход:', loginData);
-    // Для демонстрации - просто переходим на главную
+    
+    // Проверяем есть ли зарегистрированный пользователь
+    const savedUser = localStorage.getItem('roblox_user');
+    if (savedUser) {
+      const userData = JSON.parse(savedUser);
+      console.log('Вход выполнен для:', userData.username);
+    } else {
+      // Если нет сохраненного пользователя, создаем временного
+      const tempUser = {
+        username: loginData.username || 'Guest_' + Math.floor(Math.random() * 10000),
+        email: 'guest@roblox.com',
+        robux: 0,
+        tickets: 0,
+        joinDate: new Date().toISOString().split('T')[0],
+        gamesPlayed: 0,
+        friends: 0
+      };
+      localStorage.setItem('roblox_user', JSON.stringify(tempUser));
+    }
+    
+    // Переходим на главную страницу
     window.location.href = '/game';
   };
 
@@ -28,9 +46,22 @@ export default function Auth() {
       alert('Пароли не совпадают!');
       return;
     }
-    // Здесь будет логика регистрации
-    console.log('Регистрация:', registerData);
-    // Для демонстрации - просто переходим на главную
+    
+    // Сохраняем данные пользователя в localStorage
+    const userData = {
+      username: registerData.username,
+      email: registerData.email,
+      robux: 25, // Стартовые робуксы для новых пользователей
+      tickets: 10, // Стартовые билеты
+      joinDate: new Date().toISOString().split('T')[0],
+      gamesPlayed: 0,
+      friends: 0
+    };
+    
+    localStorage.setItem('roblox_user', JSON.stringify(userData));
+    console.log('Регистрация завершена:', userData);
+    
+    // Переходим на главную страницу
     window.location.href = '/game';
   };
 
