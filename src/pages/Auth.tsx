@@ -19,24 +19,28 @@ export default function Auth() {
     
     // Проверяем есть ли зарегистрированный пользователь
     const savedUser = localStorage.getItem('roblox_user');
-    if (savedUser) {
-      const userData = JSON.parse(savedUser);
-      console.log('Вход выполнен для:', userData.username);
-    } else {
-      // Если нет сохраненного пользователя, создаем временного
-      const tempUser = {
-        username: loginData.username || 'Guest_' + Math.floor(Math.random() * 10000),
-        email: 'guest@roblox.com',
-        robux: 0,
-        tickets: 0,
-        joinDate: new Date().toISOString().split('T')[0],
-        gamesPlayed: 0,
-        friends: 0
-      };
-      localStorage.setItem('roblox_user', JSON.stringify(tempUser));
+    const savedPassword = localStorage.getItem('roblox_password');
+    
+    if (!savedUser || !savedPassword) {
+      alert('❌ Аккаунт не найден! Пожалуйста, сначала зарегистрируйтесь.');
+      return;
     }
     
-    // Переходим на главную страницу
+    const userData = JSON.parse(savedUser);
+    
+    // Проверяем правильность введенных данных
+    if (loginData.username !== userData.username) {
+      alert('❌ Неправильное имя пользователя!');
+      return;
+    }
+    
+    if (loginData.password !== savedPassword) {
+      alert('❌ Неправильный пароль!');
+      return;
+    }
+    
+    // Если все правильно - входим
+    console.log('✅ Успешный вход для:', userData.username);
     window.location.href = '/game';
   };
 
@@ -59,6 +63,7 @@ export default function Auth() {
     };
     
     localStorage.setItem('roblox_user', JSON.stringify(userData));
+    localStorage.setItem('roblox_password', registerData.password); // Сохраняем пароль отдельно
     console.log('Регистрация завершена:', userData);
     
     // Переходим на главную страницу
