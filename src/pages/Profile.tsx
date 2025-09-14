@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -9,15 +9,25 @@ import Icon from '@/components/ui/icon';
 import RobloxLogo from '@/components/ui/roblox-logo';
 
 export default function Profile() {
-  const [user, setUser] = useState({
-    username: 'Guest_' + Math.floor(Math.random() * 10000),
-    email: 'guest@roblox.com',
-    robux: 0,
-    tickets: 0,
-    joinDate: new Date().toISOString().split('T')[0],
-    gamesPlayed: 45,
-    friends: 0
+  const [user, setUser] = useState(() => {
+    const saved = localStorage.getItem('roblox_user');
+    if (saved) {
+      return JSON.parse(saved);
+    }
+    return {
+      username: 'Guest_' + Math.floor(Math.random() * 10000),
+      email: 'guest@roblox.com',
+      robux: 0,
+      tickets: 0,
+      joinDate: new Date().toISOString().split('T')[0],
+      gamesPlayed: 45,
+      friends: 0
+    };
   });
+
+  useEffect(() => {
+    localStorage.setItem('roblox_user', JSON.stringify(user));
+  }, [user]);
 
   const [editData, setEditData] = useState({
     username: user.username,
