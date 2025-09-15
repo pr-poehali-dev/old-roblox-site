@@ -459,7 +459,7 @@ const Index = () => {
           </div>
 
           <p className="text-white/80 font-bold">
-            © 2008 Old Roblox Games. Все права защищены.
+            © 2025 Roblox V2. Все права защищены.
           </p>
         </div>
       </footer>

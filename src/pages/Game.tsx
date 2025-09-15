@@ -228,7 +228,7 @@ export default function Game() {
             <h2 className="text-xl font-black text-white tracking-wider">OLD ROBLOX</h2>
           </div>
           <p className="text-white/80 font-bold">
-            © 2008 Old Roblox. Все права защищены.
+            © 2025 Roblox V2. Все права защищены.
           </p>
         </div>
       </footer>
