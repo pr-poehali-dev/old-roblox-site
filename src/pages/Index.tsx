@@ -160,6 +160,13 @@ const Index = () => {
               <Icon name="Download" size={20} className="mr-2" />
               СКАЧАТЬ КЛИЕНТ
             </Button>
+            <Button 
+              className="bg-purple-500 hover:bg-purple-600 text-white font-bold border-4 border-purple-700 shadow-lg px-6 py-2"
+              onClick={() => window.location.href = '/studio'}
+            >
+              <Icon name="Wrench" size={20} className="mr-2" />
+              ROBLOX STUDIO
+            </Button>
             <Dialog open={showFriends} onOpenChange={setShowFriends}>
               <DialogTrigger asChild>
                 <Button variant="outline" className="bg-white hover:bg-gray-100 text-red-600 font-bold border-4 border-gray-400 shadow-lg px-6 py-2">
