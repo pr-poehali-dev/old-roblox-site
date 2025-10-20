@@ -309,11 +309,7 @@ const Studio = () => {
   };
 
   const playGame = () => {
-    setIsPlaying(!isPlaying);
-    toast({
-      title: isPlaying ? "🛑 Остановлено" : "▶️ Запущено",
-      description: isPlaying ? "Тестирование остановлено" : "Запущено тестирование"
-    });
+    window.location.href = '/play3d';
   };
 
   const saveProject = () => {
