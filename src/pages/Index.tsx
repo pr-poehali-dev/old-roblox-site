@@ -322,31 +322,11 @@ const Index = () => {
                           <Button 
                             className="flex-1 bg-red-500 hover:bg-red-600 text-white font-black text-xl py-4 border-4 border-red-700 shadow-xl"
                             onClick={() => {
-                              setShowDownload(true);
-                              setDownloadProgress(0);
-                              
-                              const interval = setInterval(() => {
-                                setDownloadProgress(prev => {
-                                  if (prev >= 100) {
-                                    clearInterval(interval);
-                                    return 100;
-                                  }
-                                  return prev + Math.random() * 15;
-                                });
-                              }, 200);
+                              window.location.href = '/play3d';
                             }}
-                            disabled={isPlaying}
                           >
-                            {isPlaying ? (
-                              <>
-                                <Icon name="Loader2" size={20} className="mr-2 animate-spin" />
-                                ЗАГРУЗКА...
-                              </>
-                            ) : (
-                              <>
-                                <Icon name="Play" size={20} className="mr-2" />
-                                ИГРАТЬ СЕЙЧАС
-                              </>
+                            <Icon name="Play" size={20} className="mr-2" />
+                            ИГРАТЬ СЕЙЧАС
                             )}
                           </Button>
                           <Button 
