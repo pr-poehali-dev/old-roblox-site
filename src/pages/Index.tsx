@@ -56,17 +56,28 @@ const Index = () => {
       return;
     }
 
+    // Проверяем, существует ли пользователь с таким ником
+    const allUsers = JSON.parse(localStorage.getItem('roblox_all_users') || '[]');
+    const userExists = allUsers.some(user => user.username.toLowerCase() === newFriendName.toLowerCase());
+
+    if (!userExists) {
+      toast({
+        title: "❌ Пользователь не найден",
+        description: "Нет такого зарегистрированного пользователя!"
+      });
+      return;
+    }
+
     const newFriend = {
       id: Date.now(),
       name: newFriendName,
-      online: Math.random() > 0.5 // Случайный статус
+      online: Math.random() > 0.5
     };
 
     const updatedFriends = [...friends, newFriend];
     setFriends(updatedFriends);
     localStorage.setItem('roblox_friends', JSON.stringify(updatedFriends));
     
-    // Обновляем счетчик друзей в профиле пользователя
     const userData = {...currentUser, friends: updatedFriends.length};
     setCurrentUser(userData);
     localStorage.setItem('roblox_user', JSON.stringify(userData));
