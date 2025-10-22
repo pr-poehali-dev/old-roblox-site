@@ -245,13 +245,20 @@ const Index = () => {
               <>
                 <Button 
                   className="bg-blue-500 hover:bg-blue-600 text-white font-bold border-4 border-blue-700 shadow-lg px-6 py-2"
+                  onClick={() => window.location.href = '/'}
+                >
+                  <Icon name="Home" size={20} className="mr-2" />
+                  ГЛАВНАЯ
+                </Button>
+                <Button 
+                  className="bg-purple-500 hover:bg-purple-600 text-white font-bold border-4 border-purple-700 shadow-lg px-6 py-2"
                   onClick={() => window.location.href = '/game'}
                 >
                   <Icon name="Gamepad2" size={20} className="mr-2" />
                   ИГРЫ
                 </Button>
                 <Button 
-                  className="bg-purple-500 hover:bg-purple-600 text-white font-bold border-4 border-purple-700 shadow-lg px-6 py-2"
+                  className="bg-orange-500 hover:bg-orange-600 text-white font-bold border-4 border-orange-700 shadow-lg px-6 py-2"
                   onClick={() => window.location.href = '/studio'}
                 >
                   <Icon name="Wrench" size={20} className="mr-2" />
@@ -272,20 +279,64 @@ const Index = () => {
                       </DialogDescription>
                     </DialogHeader>
                     <div className="space-y-3">
-                      {friends.map((friend) => (
-                        <div key={friend.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border-2 border-gray-200">
-                          <div className="flex items-center space-x-3">
-                            <div className="w-10 h-10 bg-gradient-to-br from-red-400 to-red-600 rounded-lg border-2 border-red-700 flex items-center justify-center">
-                              <Icon name="User" size={20} className="text-white" />
+                      {friends.length > 0 ? (
+                        friends.map((friend) => (
+                          <div key={friend.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border-2 border-gray-200">
+                            <div className="flex items-center space-x-3">
+                              <div className="w-10 h-10 bg-gradient-to-br from-red-400 to-red-600 rounded-lg border-2 border-red-700 flex items-center justify-center">
+                                <Icon name="User" size={20} className="text-white" />
+                              </div>
+                              <span className="font-bold text-gray-800">{friend.name}</span>
                             </div>
-                            <span className="font-bold text-gray-800">{friend.name}</span>
+                            <div className="flex items-center space-x-2">
+                              <Badge variant={friend.online ? "default" : "secondary"} className="font-bold">
+                                {friend.online ? "🟢 Онлайн" : "⚫ Офлайн"}
+                              </Badge>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => removeFriend(friend.id)}
+                                className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                              >
+                                <Icon name="X" size={16} />
+                              </Button>
+                            </div>
                           </div>
-                          <Badge variant={friend.online ? "default" : "secondary"} className="font-bold">
-                            {friend.online ? "🟢 Онлайн" : "⚫ Офлайн"}
-                          </Badge>
-                        </div>
-                      ))}
+                        ))
+                      ) : (
+                        <p className="text-center text-gray-500 py-4">У вас пока нет друзей</p>
+                      )}
                     </div>
+                    <Dialog open={showAddFriend} onOpenChange={setShowAddFriend}>
+                      <DialogTrigger asChild>
+                        <Button className="w-full bg-green-500 hover:bg-green-600 text-white font-bold border-4 border-green-700">
+                          <Icon name="UserPlus" size={20} className="mr-2" />
+                          Добавить друга
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent className="bg-white border-4 border-gray-300">
+                        <DialogHeader>
+                          <DialogTitle className="text-2xl font-black text-red-600">ДОБАВИТЬ ДРУГА</DialogTitle>
+                          <DialogDescription className="text-gray-600 font-bold">
+                            Введите имя пользователя
+                          </DialogDescription>
+                        </DialogHeader>
+                        <div className="space-y-4">
+                          <Input
+                            placeholder="Имя пользователя"
+                            value={newFriendName}
+                            onChange={(e) => setNewFriendName(e.target.value)}
+                            className="border-4 border-gray-300 font-bold"
+                          />
+                          <Button
+                            onClick={addFriend}
+                            className="w-full bg-red-500 hover:bg-red-600 text-white font-black border-4 border-red-700"
+                          >
+                            Добавить
+                          </Button>
+                        </div>
+                      </DialogContent>
+                    </Dialog>
                   </DialogContent>
                 </Dialog>
                 <Dialog open={showLanguageMenu} onOpenChange={setShowLanguageMenu}>
