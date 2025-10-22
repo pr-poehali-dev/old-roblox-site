@@ -190,236 +190,131 @@ const Index = () => {
               ROBLOX V2
             </h1>
           </div>
-          <nav className="flex space-x-4 items-center">
-            {!isLoggedIn ? (
-              <>
-                <Button 
-                  className="bg-yellow-400 hover:bg-yellow-500 text-red-600 font-bold border-4 border-yellow-600 shadow-lg px-6 py-2"
-                  onClick={() => window.location.href = '/auth'}
-                >
-                  <Icon name="LogIn" size={20} className="mr-2" />
-                  {getTranslation('login', language)}
+          <nav className="flex space-x-4">
+            <Button 
+              className="bg-yellow-400 hover:bg-yellow-500 text-red-600 font-bold border-4 border-yellow-600 shadow-lg px-6 py-2"
+              onClick={() => window.location.href = '/auth'}
+            >
+              <Icon name="LogIn" size={20} className="mr-2" />
+              {getTranslation('login', language)}
+            </Button>
+            <Button 
+              className="bg-green-400 hover:bg-green-500 text-white font-bold border-4 border-green-600 shadow-lg px-6 py-2"
+              onClick={() => downloadRobloxClient()}
+            >
+              <Icon name="Download" size={20} className="mr-2" />
+              {getTranslation('download', language)}
+            </Button>
+            <Button 
+              className="bg-purple-500 hover:bg-purple-600 text-white font-bold border-4 border-purple-700 shadow-lg px-6 py-2"
+              onClick={() => window.location.href = '/studio'}
+            >
+              <Icon name="Wrench" size={20} className="mr-2" />
+              {getTranslation('studio', language)}
+            </Button>
+            <Dialog open={showLanguageMenu} onOpenChange={setShowLanguageMenu}>
+              <DialogTrigger asChild>
+                <Button variant="outline" className="bg-white hover:bg-gray-100 text-red-600 font-bold border-4 border-gray-400 shadow-lg px-6 py-2">
+                  <Icon name="Languages" size={20} className="mr-2" />
+                  {languages.find(l => l.code === language)?.flag}
                 </Button>
-                <Button 
-                  className="bg-green-400 hover:bg-green-500 text-white font-bold border-4 border-green-600 shadow-lg px-6 py-2"
-                  onClick={() => downloadRobloxClient()}
-                >
-                  <Icon name="Download" size={20} className="mr-2" />
-                  {getTranslation('download', language)}
-                </Button>
-                <Dialog open={showLanguageMenu} onOpenChange={setShowLanguageMenu}>
-                  <DialogTrigger asChild>
-                    <Button variant="outline" className="bg-white hover:bg-gray-100 text-red-600 font-bold border-4 border-gray-400 shadow-lg px-6 py-2">
-                      <Icon name="Languages" size={20} className="mr-2" />
-                      {languages.find(l => l.code === language)?.flag}
+              </DialogTrigger>
+              <DialogContent className="bg-white border-4 border-gray-300">
+                <DialogHeader>
+                  <DialogTitle className="text-2xl font-black text-red-600">{getTranslation('language', language)}</DialogTitle>
+                  <DialogDescription className="text-gray-600 font-bold">
+                    Выберите язык интерфейса
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="grid grid-cols-2 gap-3">
+                  {languages.map((lang) => (
+                    <Button
+                      key={lang.code}
+                      variant={language === lang.code ? "default" : "outline"}
+                      className={`font-bold text-lg py-4 ${
+                        language === lang.code
+                          ? "bg-red-600 hover:bg-red-700 text-white border-4 border-red-800"
+                          : "border-2 border-gray-300 hover:bg-gray-100"
+                      }`}
+                      onClick={() => changeLanguage(lang.code)}
+                    >
+                      <span className="text-2xl mr-2">{lang.flag}</span>
+                      {lang.name}
                     </Button>
-                  </DialogTrigger>
-                  <DialogContent className="bg-white border-4 border-gray-300">
-                    <DialogHeader>
-                      <DialogTitle className="text-2xl font-black text-red-600">{getTranslation('language', language)}</DialogTitle>
-                      <DialogDescription className="text-gray-600 font-bold">
-                        Выберите язык интерфейса
-                      </DialogDescription>
-                    </DialogHeader>
-                    <div className="grid grid-cols-2 gap-3">
-                      {languages.map((lang) => (
-                        <Button
-                          key={lang.code}
-                          variant={language === lang.code ? "default" : "outline"}
-                          className={`font-bold text-lg py-4 ${
-                            language === lang.code
-                              ? "bg-red-600 hover:bg-red-700 text-white border-4 border-red-800"
-                              : "border-2 border-gray-300 hover:bg-gray-100"
-                          }`}
-                          onClick={() => changeLanguage(lang.code)}
-                        >
-                          <span className="text-2xl mr-2">{lang.flag}</span>
-                          {lang.name}
-                        </Button>
-                      ))}
-                    </div>
-                  </DialogContent>
-                </Dialog>
-              </>
-            ) : (
-              <>
-                <Button 
-                  className="bg-blue-500 hover:bg-blue-600 text-white font-bold border-4 border-blue-700 shadow-lg px-6 py-2"
-                  onClick={() => window.location.href = '/'}
-                >
-                  <Icon name="Home" size={20} className="mr-2" />
-                  ГЛАВНАЯ
+                  ))}
+                </div>
+              </DialogContent>
+            </Dialog>
+            <Dialog open={showFriends} onOpenChange={setShowFriends}>
+              <DialogTrigger asChild>
+                <Button variant="outline" className="bg-white hover:bg-gray-100 text-red-600 font-bold border-4 border-gray-400 shadow-lg px-6 py-2">
+                  <Icon name="Users" size={20} className="mr-2" />
+                  {getTranslation('friends', language)}
                 </Button>
-                <Button 
-                  className="bg-purple-500 hover:bg-purple-600 text-white font-bold border-4 border-purple-700 shadow-lg px-6 py-2"
-                  onClick={() => window.location.href = '/game'}
-                >
-                  <Icon name="Gamepad2" size={20} className="mr-2" />
-                  ИГРЫ
-                </Button>
-                <Button 
-                  className="bg-orange-500 hover:bg-orange-600 text-white font-bold border-4 border-orange-700 shadow-lg px-6 py-2"
-                  onClick={() => window.location.href = '/studio'}
-                >
-                  <Icon name="Wrench" size={20} className="mr-2" />
-                  STUDIO
-                </Button>
-                <Dialog open={showFriends} onOpenChange={setShowFriends}>
-                  <DialogTrigger asChild>
-                    <Button variant="outline" className="bg-white hover:bg-gray-100 text-red-600 font-bold border-4 border-gray-400 shadow-lg px-6 py-2">
-                      <Icon name="Users" size={20} className="mr-2" />
-                      {getTranslation('friends', language)}
-                    </Button>
-                  </DialogTrigger>
-                  <DialogContent className="bg-white border-4 border-gray-300">
-                    <DialogHeader>
-                      <DialogTitle className="text-2xl font-black text-red-600">МОИ ДРУЗЬЯ</DialogTitle>
-                      <DialogDescription className="text-gray-600 font-bold">
-                        Список ваших друзей в Roblox
-                      </DialogDescription>
-                    </DialogHeader>
-                    <div className="space-y-3">
-                      {friends.length > 0 ? (
-                        friends.map((friend) => (
-                          <div key={friend.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border-2 border-gray-200">
-                            <div className="flex items-center space-x-3">
-                              <div className="w-10 h-10 bg-gradient-to-br from-red-400 to-red-600 rounded-lg border-2 border-red-700 flex items-center justify-center">
-                                <Icon name="User" size={20} className="text-white" />
-                              </div>
-                              <span className="font-bold text-gray-800">{friend.name}</span>
-                            </div>
-                            <div className="flex items-center space-x-2">
-                              <Badge variant={friend.online ? "default" : "secondary"} className="font-bold">
-                                {friend.online ? "🟢 Онлайн" : "⚫ Офлайн"}
-                              </Badge>
-                              <Button
-                                variant="ghost"
-                                size="sm"
-                                onClick={() => removeFriend(friend.id)}
-                                className="text-red-600 hover:text-red-700 hover:bg-red-50"
-                              >
-                                <Icon name="X" size={16} />
-                              </Button>
-                            </div>
-                          </div>
-                        ))
-                      ) : (
-                        <p className="text-center text-gray-500 py-4">У вас пока нет друзей</p>
-                      )}
-                    </div>
-                    <Dialog open={showAddFriend} onOpenChange={setShowAddFriend}>
-                      <DialogTrigger asChild>
-                        <Button className="w-full bg-green-500 hover:bg-green-600 text-white font-bold border-4 border-green-700">
-                          <Icon name="UserPlus" size={20} className="mr-2" />
-                          Добавить друга
-                        </Button>
-                      </DialogTrigger>
-                      <DialogContent className="bg-white border-4 border-gray-300">
-                        <DialogHeader>
-                          <DialogTitle className="text-2xl font-black text-red-600">ДОБАВИТЬ ДРУГА</DialogTitle>
-                          <DialogDescription className="text-gray-600 font-bold">
-                            Введите имя пользователя
-                          </DialogDescription>
-                        </DialogHeader>
-                        <div className="space-y-4">
-                          <Input
-                            placeholder="Имя пользователя"
-                            value={newFriendName}
-                            onChange={(e) => setNewFriendName(e.target.value)}
-                            className="border-4 border-gray-300 font-bold"
-                          />
-                          <Button
-                            onClick={addFriend}
-                            className="w-full bg-red-500 hover:bg-red-600 text-white font-black border-4 border-red-700"
-                          >
-                            Добавить
-                          </Button>
+              </DialogTrigger>
+              <DialogContent className="bg-white border-4 border-gray-300">
+                <DialogHeader>
+                  <DialogTitle className="text-2xl font-black text-red-600">МОИ ДРУЗЬЯ</DialogTitle>
+                  <DialogDescription className="text-gray-600 font-bold">
+                    Список ваших друзей в Roblox
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="space-y-3">
+                  {friends.map((friend) => (
+                    <div key={friend.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border-2 border-gray-200">
+                      <div className="flex items-center space-x-3">
+                        <div className="w-10 h-10 bg-gradient-to-br from-red-400 to-red-600 rounded-lg border-2 border-red-700 flex items-center justify-center">
+                          <Icon name="User" size={20} className="text-white" />
                         </div>
-                      </DialogContent>
-                    </Dialog>
-                  </DialogContent>
-                </Dialog>
-                <Dialog open={showLanguageMenu} onOpenChange={setShowLanguageMenu}>
-                  <DialogTrigger asChild>
-                    <Button variant="outline" className="bg-white hover:bg-gray-100 text-red-600 font-bold border-4 border-gray-400 shadow-lg px-6 py-2">
-                      <Icon name="Languages" size={20} className="mr-2" />
-                      {languages.find(l => l.code === language)?.flag}
-                    </Button>
-                  </DialogTrigger>
-                  <DialogContent className="bg-white border-4 border-gray-300">
-                    <DialogHeader>
-                      <DialogTitle className="text-2xl font-black text-red-600">{getTranslation('language', language)}</DialogTitle>
-                      <DialogDescription className="text-gray-600 font-bold">
-                        Выберите язык интерфейса
-                      </DialogDescription>
-                    </DialogHeader>
-                    <div className="grid grid-cols-2 gap-3">
-                      {languages.map((lang) => (
-                        <Button
-                          key={lang.code}
-                          variant={language === lang.code ? "default" : "outline"}
-                          className={`font-bold text-lg py-4 ${
-                            language === lang.code
-                              ? "bg-red-600 hover:bg-red-700 text-white border-4 border-red-800"
-                              : "border-2 border-gray-300 hover:bg-gray-100"
-                          }`}
-                          onClick={() => changeLanguage(lang.code)}
-                        >
-                          <span className="text-2xl mr-2">{lang.flag}</span>
-                          {lang.name}
-                        </Button>
-                      ))}
+                        <span className="font-bold text-gray-800">{friend.name}</span>
+                      </div>
+                      <Badge variant={friend.online ? "default" : "secondary"} className="font-bold">
+                        {friend.online ? "🟢 Онлайн" : "⚫ Офлайн"}
+                      </Badge>
                     </div>
-                  </DialogContent>
-                </Dialog>
-                <Button 
-                  variant="outline" 
-                  className="bg-white hover:bg-gray-100 text-red-600 font-bold border-4 border-gray-400 shadow-lg px-6 py-2"
-                  onClick={() => window.location.href = '/profile'}
-                >
-                  <Icon name="User" size={20} className="mr-2" />
-                  {currentUser?.username || 'ПРОФИЛЬ'}
-                </Button>
-              </>
-            )}
+                  ))}
+                </div>
+              </DialogContent>
+            </Dialog>
           </nav>
         </div>
       </header>
 
-      {!isLoggedIn ? (
-        <section className="py-16 px-4">
-          <div className="container mx-auto text-center">
-            <div className="bg-white/90 backdrop-blur-sm rounded-lg p-8 shadow-2xl border-4 border-gray-300 mb-12">
-              <h2 className="text-5xl font-black text-red-600 mb-4 tracking-wide" 
-                  style={{
-                    textShadow: '2px 2px 0px #000, -1px -1px 0px #000, 1px -1px 0px #000, -1px 1px 0px #000'
-                  }}>
-                {getTranslation('welcome', language)}
-              </h2>
-              <p className="text-xl text-gray-700 mb-8 font-bold">
-                {getTranslation('welcomeDesc', language)}
-              </p>
-              <div className="flex justify-center space-x-6">
-                <Button 
-                  className="bg-red-500 hover:bg-red-600 text-white font-black text-xl px-8 py-4 border-4 border-red-700 shadow-xl"
-                  onClick={() => window.location.href = '/auth'}
-                >
-                  <Icon name="LogIn" size={24} className="mr-3" />
-                  {getTranslation('login', language)}
-                </Button>
-                <Button 
-                  className="bg-cyan-400 hover:bg-cyan-500 text-white font-black text-xl px-8 py-4 border-4 border-cyan-600 shadow-xl"
-                  onClick={() => setShowInstaller(true)}
-                >
-                  <Icon name="Download" size={24} className="mr-3" />
-                  {getTranslation('download', language)}
-                </Button>
-              </div>
+      {/* Hero Section */}
+      <section className="py-16 px-4">
+        <div className="container mx-auto text-center">
+          <div className="bg-white/90 backdrop-blur-sm rounded-lg p-8 shadow-2xl border-4 border-gray-300 mb-12">
+            <h2 className="text-5xl font-black text-red-600 mb-4 tracking-wide" 
+                style={{
+                  textShadow: '2px 2px 0px #000, -1px -1px 0px #000, 1px -1px 0px #000, -1px 1px 0px #000'
+                }}>
+              {getTranslation('welcome', language)}
+            </h2>
+            <p className="text-xl text-gray-700 mb-8 font-bold">
+              {getTranslation('welcomeDesc', language)}
+            </p>
+            <div className="flex justify-center space-x-6">
+              <Button 
+                className="bg-red-500 hover:bg-red-600 text-white font-black text-xl px-8 py-4 border-4 border-red-700 shadow-xl"
+                onClick={() => window.location.href = '/auth'}
+              >
+                <Icon name="LogIn" size={24} className="mr-3" />
+                {getTranslation('login', language)}
+              </Button>
+              <Button 
+                className="bg-cyan-400 hover:bg-cyan-500 text-white font-black text-xl px-8 py-4 border-4 border-cyan-600 shadow-xl"
+                onClick={() => setShowInstaller(true)}
+              >
+                <Icon name="Download" size={24} className="mr-3" />
+                {getTranslation('download', language)}
+              </Button>
             </div>
           </div>
-        </section>
-      ) : (
-        <section id="games-section" className="py-12 px-4">
+        </div>
+      </section>
+
+      {/* Popular Games */}
+      <section id="games-section" className="py-12 px-4">
         <div className="container mx-auto">
           <div className="text-center mb-12">
             <h3 className="text-4xl font-black text-white mb-4 tracking-wide"
@@ -533,9 +428,8 @@ const Index = () => {
           </div>
         </div>
       </section>
-      )}
 
-      {!isLoggedIn && (
+      {/* Features Section */}
       <section className="py-16 px-4 bg-gradient-to-r from-yellow-400 to-orange-400 border-t-8 border-yellow-600">
         <div className="container mx-auto">
           <h3 className="text-4xl font-black text-white text-center mb-12 tracking-wide"
@@ -578,7 +472,6 @@ const Index = () => {
           </div>
         </div>
       </section>
-      )}
 
       {/* Footer */}
       <footer className="bg-gradient-to-r from-red-600 to-red-700 p-8 border-t-8 border-red-800">
