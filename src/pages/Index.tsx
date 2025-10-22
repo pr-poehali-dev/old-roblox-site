@@ -333,7 +333,7 @@ const Index = () => {
                           <Button 
                             className="flex-1 bg-red-500 hover:bg-red-600 text-white font-black text-xl py-4 border-4 border-red-700 shadow-xl"
                             onClick={() => {
-                              window.location.href = '/play3d';
+                              window.open('/play3d', '_blank', 'width=1200,height=800,menubar=no,toolbar=no,location=no');
                             }}
                           >
                             <Icon name="Play" size={20} className="mr-2" />
