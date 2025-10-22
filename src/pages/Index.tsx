@@ -327,7 +327,6 @@ const Index = () => {
                           >
                             <Icon name="Play" size={20} className="mr-2" />
                             ИГРАТЬ СЕЙЧАС
-                            )}
                           </Button>
                           <Button 
                             variant="outline" 
