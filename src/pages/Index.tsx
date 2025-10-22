@@ -157,58 +157,97 @@ const Index = () => {
             </h1>
           </div>
           <nav className="flex space-x-4">
-            <Button 
-              className="bg-yellow-400 hover:bg-yellow-500 text-red-600 font-bold border-4 border-yellow-600 shadow-lg px-6 py-2"
-              onClick={() => window.location.href = '/auth'}
-            >
-              <Icon name="LogIn" size={20} className="mr-2" />
-              ВОЙТИ
-            </Button>
-            <Button 
-              className="bg-green-400 hover:bg-green-500 text-white font-bold border-4 border-green-600 shadow-lg px-6 py-2"
-              onClick={() => downloadRobloxClient()}
-            >
-              <Icon name="Download" size={20} className="mr-2" />
-              СКАЧАТЬ КЛИЕНТ
-            </Button>
-            <Button 
-              className="bg-purple-500 hover:bg-purple-600 text-white font-bold border-4 border-purple-700 shadow-lg px-6 py-2"
-              onClick={() => window.location.href = '/studio'}
-            >
-              <Icon name="Wrench" size={20} className="mr-2" />
-              ROBLOX STUDIO
-            </Button>
-            <Dialog open={showFriends} onOpenChange={setShowFriends}>
-              <DialogTrigger asChild>
-                <Button variant="outline" className="bg-white hover:bg-gray-100 text-red-600 font-bold border-4 border-gray-400 shadow-lg px-6 py-2">
-                  <Icon name="Users" size={20} className="mr-2" />
-                  ДРУЗЬЯ
+            {!isLoggedIn ? (
+              <>
+                <Button 
+                  className="bg-yellow-400 hover:bg-yellow-500 text-red-600 font-bold border-4 border-yellow-600 shadow-lg px-6 py-2"
+                  onClick={() => window.location.href = '/auth'}
+                >
+                  <Icon name="LogIn" size={20} className="mr-2" />
+                  ВОЙТИ
                 </Button>
-              </DialogTrigger>
-              <DialogContent className="bg-white border-4 border-gray-300">
-                <DialogHeader>
-                  <DialogTitle className="text-2xl font-black text-red-600">МОИ ДРУЗЬЯ</DialogTitle>
-                  <DialogDescription className="text-gray-600 font-bold">
-                    Список ваших друзей в Roblox
-                  </DialogDescription>
-                </DialogHeader>
-                <div className="space-y-3">
-                  {friends.map((friend) => (
-                    <div key={friend.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border-2 border-gray-200">
-                      <div className="flex items-center space-x-3">
-                        <div className="w-10 h-10 bg-gradient-to-br from-red-400 to-red-600 rounded-lg border-2 border-red-700 flex items-center justify-center">
-                          <Icon name="User" size={20} className="text-white" />
+                <Button 
+                  className="bg-green-400 hover:bg-green-500 text-white font-bold border-4 border-green-600 shadow-lg px-6 py-2"
+                  onClick={() => downloadRobloxClient()}
+                >
+                  <Icon name="Download" size={20} className="mr-2" />
+                  СКАЧАТЬ КЛИЕНТ
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button 
+                  className="bg-blue-500 hover:bg-blue-600 text-white font-bold border-4 border-blue-700 shadow-lg px-6 py-2"
+                  onClick={() => window.location.href = '/game'}
+                >
+                  <Icon name="Gamepad2" size={20} className="mr-2" />
+                  ИГРЫ
+                </Button>
+                <Button 
+                  className="bg-purple-500 hover:bg-purple-600 text-white font-bold border-4 border-purple-700 shadow-lg px-6 py-2"
+                  onClick={() => window.location.href = '/studio'}
+                >
+                  <Icon name="Wrench" size={20} className="mr-2" />
+                  ROBLOX STUDIO
+                </Button>
+                <Dialog open={showFriends} onOpenChange={setShowFriends}>
+                  <DialogTrigger asChild>
+                    <Button variant="outline" className="bg-white hover:bg-gray-100 text-red-600 font-bold border-4 border-gray-400 shadow-lg px-6 py-2">
+                      <Icon name="Users" size={20} className="mr-2" />
+                      ДРУЗЬЯ
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="bg-white border-4 border-gray-300">
+                    <DialogHeader>
+                      <DialogTitle className="text-2xl font-black text-red-600">МОИ ДРУЗЬЯ</DialogTitle>
+                      <DialogDescription className="text-gray-600 font-bold">
+                        Список ваших друзей в Roblox
+                      </DialogDescription>
+                    </DialogHeader>
+                    <div className="space-y-3">
+                      {friends.map((friend) => (
+                        <div key={friend.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border-2 border-gray-200">
+                          <div className="flex items-center space-x-3">
+                            <div className="w-10 h-10 bg-gradient-to-br from-red-400 to-red-600 rounded-lg border-2 border-red-700 flex items-center justify-center">
+                              <Icon name="User" size={20} className="text-white" />
+                            </div>
+                            <span className="font-bold text-gray-800">{friend.name}</span>
+                          </div>
+                          <Badge variant={friend.online ? "default" : "secondary"} className="font-bold">
+                            {friend.online ? "🟢 Онлайн" : "⚫ Офлайн"}
+                          </Badge>
                         </div>
-                        <span className="font-bold text-gray-800">{friend.name}</span>
-                      </div>
-                      <Badge variant={friend.online ? "default" : "secondary"} className="font-bold">
-                        {friend.online ? "🟢 Онлайн" : "⚫ Офлайн"}
-                      </Badge>
+                      ))}
                     </div>
-                  ))}
-                </div>
-              </DialogContent>
-            </Dialog>
+                  </DialogContent>
+                </Dialog>
+                <Button 
+                  variant="outline" 
+                  className="bg-white hover:bg-gray-100 text-red-600 font-bold border-4 border-gray-400 shadow-lg px-6 py-2"
+                  onClick={() => window.location.href = '/profile'}
+                >
+                  <Icon name="User" size={20} className="mr-2" />
+                  {currentUser?.username || 'ПРОФИЛЬ'}
+                </Button>
+                <Button 
+                  className="bg-red-500 hover:bg-red-600 text-white font-bold border-4 border-red-700 shadow-lg px-6 py-2"
+                  onClick={() => {
+                    localStorage.removeItem('roblox_user');
+                    setIsLoggedIn(false);
+                    setCurrentUser(null);
+                    setFriends([]);
+                    toast({
+                      title: "👋 Выход выполнен",
+                      description: "Вы вышли из аккаунта"
+                    });
+                    window.location.reload();
+                  }}
+                >
+                  <Icon name="LogOut" size={20} className="mr-2" />
+                  ВЫХОД
+                </Button>
+              </>
+            )}
           </nav>
         </div>
       </header>
