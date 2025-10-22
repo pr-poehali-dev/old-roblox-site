@@ -9,7 +9,6 @@ import RobloxLogo from "@/components/ui/roblox-logo";
 import { useState, useEffect } from "react";
 import { downloadRobloxClient, getClientInfo } from '@/utils/downloadClient';
 import RobloxInstaller from '@/components/RobloxInstaller';
-import { getTranslation, getCurrentLanguage, setCurrentLanguage, languages, Language } from '@/utils/i18n';
 
 const Index = () => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -22,8 +21,6 @@ const Index = () => {
   const [showFriends, setShowFriends] = useState(false);
   const [newFriendName, setNewFriendName] = useState('');
   const [showAddFriend, setShowAddFriend] = useState(false);
-  const [language, setLanguage] = useState<Language>(getCurrentLanguage());
-  const [showLanguageMenu, setShowLanguageMenu] = useState(false);
 
   useEffect(() => {
     // Проверяем авторизацию при загрузке
@@ -99,20 +96,10 @@ const Index = () => {
     });
   };
 
-  const changeLanguage = (newLang: Language) => {
-    setLanguage(newLang);
-    setCurrentLanguage(newLang);
-    setShowLanguageMenu(false);
-    toast({
-      title: "✅ Язык изменён",
-      description: `Выбран язык: ${languages.find(l => l.code === newLang)?.name}`
-    });
-  };
-
   const games = [
     {
       id: 1,
-      title: "Турнир мечников",
+      title: "Sword Fighting Tournament",
       description: "Сражайтесь мечами в эпических битвах!",
       image: "/img/24801938-8d2c-427b-a8dc-57eb39348ada.jpg",
       players: 1247,
@@ -120,58 +107,26 @@ const Index = () => {
     },
     {
       id: 2,
-      title: "Работай в Пиццерии",
-      description: "Стань лучшим работником пиццерии!",
+      title: "Build To Survive",
+      description: "Стройте укрытия и выживайте!",
       image: "/img/99a99a0f-b1a4-4eed-aa1b-b1149fec4e9d.jpg",
-      players: 3892,
-      rating: 4.9
-    },
-    {
-      id: 3,
-      title: "Побег из тюрьмы",
-      description: "Сбеги из самой охраняемой тюрьмы!",
-      image: "/img/6c482fb9-6f85-40d2-9f02-9f70414e779b.jpg",
-      players: 5156,
-      rating: 4.8
-    },
-    {
-      id: 4,
-      title: "Апокалипсис Зомби",
-      description: "Выживай в мире зомби!",
-      image: "/img/be21c174-3cb0-4606-aa36-87533390f20d.jpg",
-      players: 3241,
-      rating: 4.7
-    },
-    {
-      id: 5,
-      title: "Симулятор супергероя",
-      description: "Стань супергероем и спасай город!",
-      image: "/img/a2ae8285-95e0-4a2e-9ef9-524f66705753.jpg",
-      players: 4521,
+      players: 892,
       rating: 4.6
     },
     {
-      id: 6,
-      title: "Усынови питомца",
-      description: "Ухаживай за милыми питомцами!",
-      image: "/img/1f81666d-d49e-4c06-9821-f757391ab871.jpg",
-      players: 6234,
+      id: 3,
+      title: "Racing Circuit",
+      description: "Гонки на самых крутых трассах!",
+      image: "/img/6c482fb9-6f85-40d2-9f02-9f70414e779b.jpg",
+      players: 2156,
       rating: 4.9
     },
     {
-      id: 7,
-      title: "Гонки на выживание",
-      description: "Безумные гонки на крутых машинах!",
-      image: "/img/de758f21-015e-4dc6-acae-a5e777a28c30.jpg",
-      players: 2834,
-      rating: 4.5
-    },
-    {
-      id: 8,
-      title: "Добывай ресурсы",
-      description: "Копай и стань самым богатым!",
-      image: "/img/24801938-8d2c-427b-a8dc-57eb39348ada.jpg",
-      players: 3456,
+      id: 4,
+      title: "Zombie Apocalypse",
+      description: "Сражайтесь с ордами зомби!",
+      image: "/img/be21c174-3cb0-4606-aa36-87533390f20d.jpg",
+      players: 3241,
       rating: 4.7
     }
   ];
@@ -196,60 +151,27 @@ const Index = () => {
               onClick={() => window.location.href = '/auth'}
             >
               <Icon name="LogIn" size={20} className="mr-2" />
-              {getTranslation('login', language)}
+              ВОЙТИ
             </Button>
             <Button 
               className="bg-green-400 hover:bg-green-500 text-white font-bold border-4 border-green-600 shadow-lg px-6 py-2"
               onClick={() => downloadRobloxClient()}
             >
               <Icon name="Download" size={20} className="mr-2" />
-              {getTranslation('download', language)}
+              СКАЧАТЬ КЛИЕНТ
             </Button>
             <Button 
               className="bg-purple-500 hover:bg-purple-600 text-white font-bold border-4 border-purple-700 shadow-lg px-6 py-2"
               onClick={() => window.location.href = '/studio'}
             >
               <Icon name="Wrench" size={20} className="mr-2" />
-              {getTranslation('studio', language)}
+              ROBLOX STUDIO
             </Button>
-            <Dialog open={showLanguageMenu} onOpenChange={setShowLanguageMenu}>
-              <DialogTrigger asChild>
-                <Button variant="outline" className="bg-white hover:bg-gray-100 text-red-600 font-bold border-4 border-gray-400 shadow-lg px-6 py-2">
-                  <Icon name="Languages" size={20} className="mr-2" />
-                  {languages.find(l => l.code === language)?.flag}
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="bg-white border-4 border-gray-300">
-                <DialogHeader>
-                  <DialogTitle className="text-2xl font-black text-red-600">{getTranslation('language', language)}</DialogTitle>
-                  <DialogDescription className="text-gray-600 font-bold">
-                    Выберите язык интерфейса
-                  </DialogDescription>
-                </DialogHeader>
-                <div className="grid grid-cols-2 gap-3">
-                  {languages.map((lang) => (
-                    <Button
-                      key={lang.code}
-                      variant={language === lang.code ? "default" : "outline"}
-                      className={`font-bold text-lg py-4 ${
-                        language === lang.code
-                          ? "bg-red-600 hover:bg-red-700 text-white border-4 border-red-800"
-                          : "border-2 border-gray-300 hover:bg-gray-100"
-                      }`}
-                      onClick={() => changeLanguage(lang.code)}
-                    >
-                      <span className="text-2xl mr-2">{lang.flag}</span>
-                      {lang.name}
-                    </Button>
-                  ))}
-                </div>
-              </DialogContent>
-            </Dialog>
             <Dialog open={showFriends} onOpenChange={setShowFriends}>
               <DialogTrigger asChild>
                 <Button variant="outline" className="bg-white hover:bg-gray-100 text-red-600 font-bold border-4 border-gray-400 shadow-lg px-6 py-2">
                   <Icon name="Users" size={20} className="mr-2" />
-                  {getTranslation('friends', language)}
+                  ДРУЗЬЯ
                 </Button>
               </DialogTrigger>
               <DialogContent className="bg-white border-4 border-gray-300">
@@ -288,10 +210,10 @@ const Index = () => {
                 style={{
                   textShadow: '2px 2px 0px #000, -1px -1px 0px #000, 1px -1px 0px #000, -1px 1px 0px #000'
                 }}>
-              {getTranslation('welcome', language)}
+              ДОБРО ПОЖАЛОВАТЬ В ROBLOX!
             </h2>
             <p className="text-xl text-gray-700 mb-8 font-bold">
-              {getTranslation('welcomeDesc', language)}
+              Исследуйте миры, созданные игроками. Стройте, играйте, общайтесь!
             </p>
             <div className="flex justify-center space-x-6">
               <Button 
@@ -299,14 +221,14 @@ const Index = () => {
                 onClick={() => window.location.href = '/auth'}
               >
                 <Icon name="LogIn" size={24} className="mr-3" />
-                {getTranslation('login', language)}
+                ВОЙТИ В ИГРУ
               </Button>
               <Button 
                 className="bg-cyan-400 hover:bg-cyan-500 text-white font-black text-xl px-8 py-4 border-4 border-cyan-600 shadow-xl"
                 onClick={() => setShowInstaller(true)}
               >
                 <Icon name="Download" size={24} className="mr-3" />
-                {getTranslation('download', language)}
+                СКАЧАТЬ КЛИЕНТ
               </Button>
             </div>
           </div>
@@ -321,7 +243,7 @@ const Index = () => {
                 style={{
                   textShadow: '3px 3px 0px #000, -1px -1px 0px #000, 1px -1px 0px #000, -1px 1px 0px #000'
                 }}>
-              {getTranslation('popularGames', language)}
+              ПОПУЛЯРНЫЕ ИГРЫ
             </h3>
             <div className="bg-yellow-400 h-2 w-32 mx-auto rounded-full border-2 border-yellow-600"></div>
           </div>
@@ -361,7 +283,7 @@ const Index = () => {
                     <DialogTrigger asChild>
                       <Button className="w-full bg-red-500 hover:bg-red-600 text-white font-black border-4 border-red-700 shadow-lg">
                         <Icon name="Play" size={16} className="mr-2" />
-                        {getTranslation('play', language)}
+                        ИГРАТЬ
                       </Button>
                     </DialogTrigger>
                     <DialogContent className="bg-white border-4 border-gray-300 max-w-2xl">
@@ -387,12 +309,12 @@ const Index = () => {
                           <div className="text-center p-4 bg-yellow-100 rounded-lg border-2 border-yellow-300">
                             <Icon name="Users" size={24} className="text-cyan-600 mx-auto mb-2" />
                             <div className="text-2xl font-black text-gray-800">{game.players}</div>
-                            <div className="text-sm font-bold text-gray-600">{getTranslation('playersOnline', language)}</div>
+                            <div className="text-sm font-bold text-gray-600">Игроков онлайн</div>
                           </div>
                           <div className="text-center p-4 bg-yellow-100 rounded-lg border-2 border-yellow-300">
                             <Icon name="Star" size={24} className="text-yellow-500 mx-auto mb-2 fill-current" />
                             <div className="text-2xl font-black text-gray-800">{game.rating}</div>
-                            <div className="text-sm font-bold text-gray-600">{getTranslation('rating', language)}</div>
+                            <div className="text-sm font-bold text-gray-600">Рейтинг</div>
                           </div>
                         </div>
                         
@@ -404,7 +326,8 @@ const Index = () => {
                             }}
                           >
                             <Icon name="Play" size={20} className="mr-2" />
-                            {getTranslation('playNow', language)}
+                            ИГРАТЬ СЕЙЧАС
+                            )}
                           </Button>
                           <Button 
                             variant="outline" 
